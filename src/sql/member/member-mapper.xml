@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="loginMember">
+		SELECT  /* com.kh.member.model.dao.MemberDao#loginMember */
+		       USER_NO
+		     , USER_ID
+		     , USER_PWD
+		     , USER_NAME
+		     , PHONE
+		     , EMAIL
+		     , ADDRESS
+		     , INTEREST
+		     , ENROLL_DATE
+		     , MODIFY_DATE
+		     , STATUS
+		  FROM MEMBER
+		 WHERE STATUS = 'Y' 
+		   AND USER_ID = ? 
+		   AND USER_PWD = ?
+	</entry>
+	<entry key="insertMember">
+		INSERT /* com.kh.member.model.dao.MemberDao#insertMember */
+		  INTO MEMBER
+		  (
+		  	 USER_NO
+		   , USER_ID
+		   , USER_PWD
+		   , USER_NAME
+		   , PHONE
+		   , EMAIL
+		   , ADDRESS
+		   , INTEREST
+		   ) 
+		   VALUES
+		   (
+		   	  SEQ_UNO.NEXTVAL
+		   	, ?
+		   	, ?
+		   	, ?
+		   	, ?
+		   	, ?
+		   	, ?
+		   	, ?
+		   	)
+	</entry>
+	<entry key="updateMember">
+		UPDATE /* com.kh.member.model.dao.MemberDao#updateMember */
+			   MEMBER 
+		   SET USER_NAME = ?
+		     , PHONE = ?
+		     , EMAIL = ?
+		     , ADDRESS = ?
+		     , INTEREST = ?
+		     , MODIFY_DATE = SYSDATE
+		 WHERE USER_ID = ?
+	</entry>
+	<entry key="selectMember">
+		SELECT /* com.kh.member.model.dao.MemberDao#selectMember */
+		       USER_NO
+		     , USER_ID
+		     , USER_PWD
+		     , USER_NAME
+		     , PHONE
+		     , EMAIL
+		     , ADDRESS
+		     , INTEREST
+		     , ENROLL_DATE
+		     , MODIFY_DATE
+		     , STATUS
+		  FROM MEMBER 
+		 WHERE STATUS = 'Y' 
+		   AND USER_ID = ?
+	</entry>
+	<entry key="updatePwd">
+		UPDATE /* com.kh.member.model.dao.MemberDao#updatePwd */
+			   MEMBER 
+		   SET USER_PWD = ?
+		     , MODIFY_DATE = SYSDATE
+		 WHERE USER_ID = ?
+		   AND USER_PWD = ?
+	</entry>
+	<entry key="deleteMember">
+		UPDATE /* com.kh.member.model.dao.MemberDao#deleteMember */
+			   MEMBER 
+		   SET STATUS = 'N'
+		 WHERE USER_ID =?
+		   AND USER_PWD = ?
+	</entry>
+</properties>
