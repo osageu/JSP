@@ -35,7 +35,7 @@
 
         <form action="<%= contextPath %>/insert.bo" id="insertForm" method="POST" enctype="multipart/form-data">
             <!-- 카테고리, 제목, 내용, 첨부파일 -->
-            <input type="hidden" name="uesrNo" value="<%=loginUser.getUserNo()%>">
+            <input type="hidden" name="userNo" value="<%=loginUser.getUserNo()%>">
             <table align="center">
                 <tr>
                     <th width="70">분야</th>

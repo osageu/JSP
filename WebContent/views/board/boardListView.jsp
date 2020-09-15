@@ -12,7 +12,6 @@
 	int endPage = pi.getEndPage();
 	int maxPage = pi.getMaxPage();
 	int boardLimit = pi.getBoardLimit();
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -86,6 +85,15 @@
             	<% } %>
             </tbody>
         </table>
+        
+        <script>
+        	$(function(){
+        		$(".listArea>tbody>tr").click(function(){
+        			location.href="<%=contextPath%>/detail.bo?bno=" + $(this).children().eq(0).text();
+        		});
+        	});
+        </script>
+        
         <br><br>
         <div class="pagingArea" align="center">
             <button onclick="location.href='<%=contextPath%>/list.bo?currentPage=1';">&lt;&lt;</button>

@@ -174,11 +174,35 @@ UPDATE
    	  , ?
    )
    
+
+UPDATE
+	   BOARD
+   SET COUNT = COUNT + 1
+ WHERE BOARD_NO = ?
+   AND STATUS = 'Y'
+ 
+
+SELECT 
+       BOARD_NO
+     , CATEGORY_NAME
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , USER_ID
+     , CREATE_DATE
+  FROM BOARD
+  JOIN CATEGORY USING(CATEGORY_NO)
+  JOIN MEMBER ON(BOARD_WRITER = USER_NO)
+ WHERE BOARD_NO = ?
+   AND B.STATUS = 'Y'
    
-   
-   
-   
-   
+
+SELECT
+       FILE_NO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH
+  FROM ATTACHMENT
+ WHERE REF_BNO = ?
    
    
    

@@ -40,6 +40,30 @@ public class BoardService {
 		return result1*result2;
 	}
 	
+	public int increaseCount(int bno) {
+		Connection conn = getConnection();
+		int result = new BoardDao().increaseCount(conn, bno);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+	
+	public Board selectBoard(int bno) {
+		Connection conn = getConnection();
+		Board b = new BoardDao().selectBoard(conn, bno);
+		close(conn);
+		return b;
+	}
+	
+	public Attachment selectAttachment(int bno) {
+		Connection conn = getConnection();
+		Attachment at = new BoardDao().selectAttachment(conn, bno);
+		close(conn);
+		return at;
+	}
 	
 	
 	
