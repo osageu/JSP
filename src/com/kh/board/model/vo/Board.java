@@ -14,7 +14,9 @@ public class Board {
 	private int count;
 	private Date createDate;
 	private String status;
+	private String titleImg;
 	
+
 	// constructor
 	public Board() {
 		
@@ -55,6 +57,13 @@ public class Board {
 	}
 	
 	// method
+	public String getTitleImg() {
+		return titleImg;
+	}
+	
+	public void setTitleImg(String titleImg) {
+		this.titleImg = titleImg;
+	}
 	public int getBoardNo() {
 		return boardNo;
 	}

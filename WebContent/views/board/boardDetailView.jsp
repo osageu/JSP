@@ -60,16 +60,21 @@
                 	<% if(at == null){ %>
                 		첨부파일이 없습니다.
                 	<% }else{ %>
-	                    <a href="<%=contextPath%>/<%=at.getFilePath() + at.getChangeName()%>"><%= at.getOriginName() %></a>
+	                    <a download="<%=at.getOriginName()%>" href="<%=contextPath%>/<%=at.getFilePath()%>/<%=at.getChangeName()%>"><%= at.getOriginName() %></a>
                 	<% } %>
                 </td>
             </tr>
         </table>
         <br>
-        <div align="center">
-            <button>수정하기</button>
-            <button>삭제하기</button>
-        </div>
+        <%if(loginUser != null && loginUser.getUserId().equals(b.getBoardWriter())){ %>
+	        <div align="center">
+	            <button onclick="location.href='<%=contextPath%>/updateForm.bo?bno=<%=b.getBoardNo()%>';">수정하기</button>
+	            <button>삭제하기</button>
+	        </div>
+        <% } %>
+        <% %>
+        <% %>
+        <% %>
         <br>
         <div id="replyArea">
             <table border="1" align="center">

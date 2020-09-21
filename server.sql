@@ -205,7 +205,96 @@ SELECT
  WHERE REF_BNO = ?
    
    
+UPDATE
+       BOARD
+   SET CATEGORY_NO = ?
+     , BOARD_TITLE = ?
+     , BOARD_CONTENT = ?
+ WHERE BOARD_NO = ?
    
+
+UPDATE
+       ATTACHMENT
+   SET ORIGIN_NAME = ?
+     , CHANGE_NAME = ?
+     , FILE_PATH = ?
+ WHERE FILE_NO = ?
+ 
+ 
+INSERT
+  INTO ATTACHMENT
+  (
+     FILE_NO
+   , REF_BNO
+   , ORIGIN_NAME
+   , CHANGE_NAME
+   , FILE_PATH
+  )
+VALUES 
+  (
+     SEQ_FNO.NEXTVAL
+   , ?
+   , ?
+   , ?
+   , ?
+  )
+ 
+ 
+INSERT
+  INTO BOARD
+  (
+  	BOARD_NO
+  , BOARD_TYPE
+  , BOARD_TITLE
+  , BOARD_CONTENT
+  , BOARD_WRITER
+  , CREATE_DATE
+  )
+ VALUES
+ (
+    SEQ_BNO.NEXTVAL
+  , 2
+  , ?
+  , ?
+  , ?
+  , SYSDATE
+ )
+ 
+ 
+INSERT
+  INTO ATTACHMENT
+  (
+     FILE_NO
+   , REF_BNO
+   , ORIGIN_NAME
+   , CHANGE_NAME
+   , FILE_PATH
+   , FILE_LEVEL
+  )
+  VALUES
+  (
+     SEQ_FNO.NEXTVAL  
+   , SEQ_BNO.CURRVAL
+   , ?
+   , ?
+   , ?
+   , ?
+  )
+  
    
-   
+ SELECT
+ 	    BOARD_NO
+	  , BOARD_TITLE
+	  , COUNT
+	  , FILE_PATH || CHANGE_NAME "TITLEIMG"
+  FROM  BOARD B
+  JOIN ATTACHMENT ON(BOARD_NO=REF_BNO)
+ WHERE BOARD_TYPE = 2
+   AND B.STATUS = 'Y'
+   AND FILE_LEVEL = 1
+ORDER
+    BY BOARD_NO DESC
+  
+  
+ 
    
