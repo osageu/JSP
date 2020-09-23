@@ -35,7 +35,7 @@
                 <tr>
                     <td>* 아이디 </td>
                     <td><input type="text" name="userId" maxlength="12" required></td>
-                    <td><button type="button">중복확인</button></td>
+                    <td><button type="button" onclick="idCheck();">중복확인</button></td>
                 </tr>
                 <tr>
                     <td>* 비밀번호 </td>
@@ -87,12 +87,43 @@
             </table>
             <br><br>
             <div align="center">
-                <button type="submit">회원가입</button>
+                <button type="submit" id="joinBtn" disabled>회원가입</button>
                 <button type="reset">초기화</button>
             </div>
         </form>
         <br><br>
-        
     </div>
+    <script>
+    	function idCheck(){
+    		var userId = $("#enrollForm input[name=userId]");
+			$.ajax({
+				url:"<%=contextPath%>/idCheck.me",
+				data:{checkId:userId.val()},
+				type:"get",
+				success:function(result){
+					
+					if(result == "fail"){
+						alert("이미 사용 중인 아이디입니다.");
+						userId.val("");
+						userId.focus();
+					}else{
+						
+						if(confirm("able id, use this?")){
+							userId.attr("readonly",true);
+							// $("#joinBtn").attr("disabled",false);
+							$("#joinBtn").removeAttr("disabled");
+						}else{
+							userId.val("");
+							userId.focus();
+						}
+						
+					}
+					
+				},
+				error:function(){
+				}
+			})    		
+    	}
+    </script>
 </body>
 </html>

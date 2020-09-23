@@ -296,5 +296,8 @@ ORDER
     BY BOARD_NO DESC
   
   
+ SELECT
+        COUNT(*)
+   FROM MEMBER
+  WHERE USER_ID = ?
  
-   
