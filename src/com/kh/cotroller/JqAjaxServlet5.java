@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.kh.model.vo.User;
 
 @WebServlet("/jqAjax5.do")
@@ -27,7 +28,9 @@ public class JqAjaxServlet5 extends HttpServlet {
 		list.add(new User(4, "이민기", 24, 'M'));
 		list.add(new User(5, "홍길동", 21, 'F'));
 		
-		
+		Gson gson = new Gson();
+		response.setContentType("application/json; charset=UTF-8");
+		gson.toJson(list, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

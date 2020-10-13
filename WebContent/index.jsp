@@ -31,31 +31,31 @@
 	<br>
 	<input type="text" id="test">
 	<button onclick="requestTest();">제출</button>
-	
+
 	<script>
 		function requestTest(){
 			location.href = "test2.do?input=" + $("#test").val();
 		}
 	</script>
-	
+
 	<hr>
-	
+
 	<h2>jQuery방식에섯의 ajax통신으로 비동기식 요청</h2>
 	<h3>1. 버튼 클릭 시 GET방식으로 서버에 데이터 전송 및 응답</h3>
-	
-	입력 : 
+
+	입력 :
 	<input type="text" id="input1">
 	<button id="btn1">전송</button>
 	<br>
 	응답 : <label id="output1"></label>
-	
+
 	<script>
 		$("#btn1").click(function(){
 			$.ajax({
 				url:"jqAjax1.do",					// url : 요청할 url (필수!)
 				data:{input:$("#input1").val()},	// data : 요청 시 전달할 데이터(key:value)
 				type:"get",							// type : 전송방식 (get/post)
-				success:function(result){			// success : 전송 성공 시 호출 
+				success:function(result){			// success : 전송 성공 시 호출
 													// result 매개변수 : 서버에서 응답이 왔을 때 그 응답데이터가 저장될 변수
 					console.log("ajax 성공");
 					$("#output1").text(result);
@@ -66,11 +66,11 @@
 				complete:function(){				// complete : 무조건 호출
 					console.log("무조건 호출");
 				}
-				
+
 			});
 		});
 	</script>
-	
+
 	<br><br><br>
 	<h3>2. 버튼 클릭 시 post방식으로 여러 개의 데이터 전송 및 응답</h3>
 	이름 : <input type="text" id="input2_1"> <br>
@@ -98,7 +98,7 @@
             });
         };
     </script>
-	
+
 	<br><br><br>
 
     <h3>3. 서버로 데이터 전송 후, 응답데이터를 vo객체로 받아보고자할 때</h3>
@@ -107,7 +107,7 @@
         조회된 사용자가 없을 경우 "사용자 정보가 없습니다." 출력
     </p>
 
-    검색할 회원번호 입력 : 
+    검색할 회원번호 입력 :
     <input type="number" id="userNo">
     <button onclick="test3();">조회</button>
 
@@ -134,11 +134,11 @@
             });
         }
     </script>
-	
+
 	<br>
 
     <h3>4. 응답 데이터로 여러 개의 객체들이 담겨있는 ArrayList로 응답</h3>
-    
+
     <button onclick="test4();">전체 회원조회</button>
 
     <br><br>
@@ -164,7 +164,7 @@
             		console.log(jArr);
             		var result = "";
             		for(var i = 0 ; i < jArr.length ; i++){
-            			result += "<tr>" + 
+            			result += "<tr>" +
             						"<td>" + jArr[i].userNo + "</td>"+
             						"<td>" + jArr[i].userName + "</td>"+
             						"<td>" + jArr[i].age + "</td>"+
@@ -179,13 +179,13 @@
             });
         };
     </script>
-	
-	<h3>5. Gson을 이용한 ArrayList 가져와보</h3>
-	
+
+	<h3>5. Gson을 이용한 ArrayList 가져와보기</h3>
+
 	<button onclick = "test5();">전체 회원조회</button>
-	
+
 	<br><br>
-	
+
 	<table id="memberList2" border="1" style="text-align:center;">
         <thead>
             <th>번호</th>
@@ -197,24 +197,35 @@
 
         </tbody>
     </table>
-	
+
 	<script>
 		function test5(){
-			
+
 			$.ajax({
 				url:"jqAjax5.do",
 				type:"get",
 				success:function(list){
-					
+					console.log(list);
+					var result = "";
+					for(var i in list){
+						result += "<tr>" +
+										"<td>" + list[i].userNo + "</td>" +
+										"<td>" + list[i].userName + "</td>" +
+										"<td>" + list[i].age + "</td>" +
+										"<td>" + list[i].gender + "</td>" +
+						          "</tr>";
+					}
+					$("#memberList2 tbody").html(result);
+
 				},
 				error:function(){
 					console.log("fail");
 				}
 			});
-			
+
 		}
 	</script>
-	
-	
+
+
 </body>
 </html>
