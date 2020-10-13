@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kh.test.model.*;
 
-@WebServlet("/test.do")
+@WebServlet("/test123.do")
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

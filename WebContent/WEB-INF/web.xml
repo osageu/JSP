@@ -6,15 +6,15 @@
   </welcome-file-list>
   
   <!-- 1. web.xml에 해당 servlet class를 등록 -->
-  <servlet>
+  <!-- <servlet>
   	<servlet-name>LoginServlet</servlet-name>
   	<servlet-class>com.kh.member.controller.LoginServlet</servlet-class>
-  </servlet>
+  </servlet> -->
   
   <!-- 2. 등록한 servlet class를 mapping하는 tag -->
-  <servlet-mapping>
+  <!-- <servlet-mapping>
   	<servlet-name>LoginServlet</servlet-name>
   	<url-pattern>/login.me</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   
 </web-app>
