@@ -11,6 +11,7 @@ import com.kh.board.model.dao.BoardDao;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.PageInfo;
+import com.kh.board.model.vo.Reply;
 
 public class BoardService {
 	
@@ -117,9 +118,24 @@ public class BoardService {
 		return list;
 	}
 	
+	public ArrayList<Reply> selectReplyList(int bno){
+		Connection conn = getConnection();
+		ArrayList<Reply> list = new BoardDao().selectReplyList(conn, bno);
+		close(conn);
+		return list;
+	}
 	
-	
-	
+	public int insertReply(Reply r) {
+		Connection conn = getConnection();
+		int result = new BoardDao().insertReply(conn, r);
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
 	
 	
 }

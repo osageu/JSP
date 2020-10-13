@@ -80,32 +80,82 @@
             <table border="1" align="center">
                 <thead>
                     <tr>
+                    
                         <th>댓글작성</th>
-                        <td>
-                            <textarea cols="50" rows="3" style="resize: none;"></textarea>
-                        </td>
-                        <td><button>댓글등록</button></td>
+                        <% if(loginUser == null){ %>
+	                        <td colspan=2>
+	                            <textarea cols="60" rows="3" style="resize: none; readonly;" >로그인 후 이용 가능~</textarea>
+	                        </td>
+                        <% }else{ %>
+	                        <td>
+	                            <textarea id="replyContent" cols="50" rows="3" style="resize: none;"></textarea>
+	                        </td>
+	                        <td><button onclick="addReply();">댓글등록</button></td>
+                        <% } %>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>admin</td>
-                        <td>댓글내용</td>
-                        <td>2020년 9월 15일</td>
-                    </tr>
-                    <tr>
-                        <td>user01</td>
-                        <td>댓글내용</td>
-                        <td>2020년 9월 15일</td>
-                    </tr>
-                    <tr>
-                        <td>user02</td>
-                        <td>댓글내용</td>
-                        <td>2020년 9월 15일</td>
-                    </tr>
+                <tbody id="eee">
                 </tbody>
             </table>
         </div>
+            <br><br><br>
+            
+            <script>
+            	$(function(){
+            		
+            		selectReplyList(); // 로딩된 직후에 이 게시글에 달려있는 댓글 리스트 조회 
+            		setInterval(selectReplyList, 1000);
+            		
+            	});
+            	
+            	function addReply(){
+            		$.ajax({
+            			url:"<%=contextPath%>/rinsert.bo",
+            			type:"post",
+            			data:{
+            				content:$("#replyContent").val(),
+            				bno:<%=b.getBoardNo()%>
+            			},
+            			success:function(result){
+            				if(result>0){
+            					console.log("댓글 작성 성공");
+            					$("#replyContent").val("");
+            					selectReplyList();
+            				}else{
+            					console.log("댓글 작성 실패");
+            				}
+            			},
+            			error:function(){
+            				console.log("fail");
+            			}
+            		});
+            	}
+            	
+            	function selectReplyList(){
+            		$.ajax({
+            			url:"<%=contextPath%>/rlist.bo",
+            			type:"get",
+            			data:{bno:<%=b.getBoardNo()%>},
+            			success:function(list){
+            				
+            				var result ="";
+            				for(var i in list){
+            					result += "<tr>" + 
+            							   	  "<td>" + list[i].replyWriter + "</td>" + 
+            							   	  "<td>" + list[i].replyContent + "</td>" + 
+            							   	  "<td>" + list[i].createDate + "</td>" + 
+            					           "</tr>";
+            				}
+            				$("#eee").html(result);
+            				
+            			},
+            			error:function(){
+            				console.log("fail");
+            			}
+            		});
+            	}
+            </script>
+            
     </div>
 </body>
 </html>

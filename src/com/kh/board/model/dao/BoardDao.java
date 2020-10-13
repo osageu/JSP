@@ -12,6 +12,7 @@ import java.util.Properties;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.PageInfo;
+import com.kh.board.model.vo.Reply;
 
 import static com.kh.common.JDBCTemplate.*;
 public class BoardDao {
@@ -333,7 +334,82 @@ public class BoardDao {
 		return list;
 	}
 	
+	public ArrayList<Reply> selectReplyList(Connection conn, int bno){
+		ArrayList<Reply> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReplyList");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bno);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				list.add(new Reply(rset.getInt("reply_no"),
+									rset.getString("reply_content"),
+									rset.getString("user_id"),
+									rset.getDate("create_date")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
 	
+	public int insertReply(Connection conn, Reply r) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertReply");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, r.getReplyContent());
+			pstmt.setInt(2, r.getRefBoardNo());
+			pstmt.setInt(3, Integer.parseInt(r.getReplyWriter()));
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
+	public boolean selectLogin(String myid, String mypw){
+		boolean trueOrFalse = true;
+		int result = 0;
+		Connection con = getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID = ? AND USER_PWD = ?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, myid);
+			pstmt.setString(2, mypw);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			if(result > 0) {
+				trueOrFalse = true;
+			} else {
+				trueOrFalse = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rset.close();
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return trueOrFalse;
+		
+	}
 	
+
 }
