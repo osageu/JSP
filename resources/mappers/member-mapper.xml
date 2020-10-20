@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- mapper의 namespace 먼저 지정!!!(이 메퍼 파일의 고유 별칭 같은것 -->
+<mapper namespace="memberMapper">
+	
+	<resultMap id="memberResultSet" type="Member">
+		
+	</resultMap>
+	
+   <!-- 
+      < 주의사항 > 
+      - mapper 문서에서 실행하고자 하는 sql문 종류에 맞춰서 태그를 제시 
+      - DAO에서 해당 이 sql문을 찾아서 실행할 수 있도록 각 sql문 마다 고유한 id값 부여 
+      - 여기서도 마찬가지로 세미콜론이 있어서는 안됨!!
+      
+      쿼리문은 기본적으로 PreparedStatement임
+      ?(홀더) 대신에 해당 sql문에 전달받은 객체의 값을 꺼내서 대체헐 때
+      #{필드명 또는 변수명 또는 키값}으로 값을 뽑아서 대체한다. 
+   -->
+   <insert id="insertMember" 
+          parameterType="com.kh.mybatis.member.model.vo.Member"> 
+          <!-- 객체 타입을 정의(자료형 -> 파일 경로 다 적어줘야함) -->
+      INSERT 
+        INTO MEMBER
+           (
+             USER_NO
+           , USER_ID
+           , USER_PWD
+           , USER_NAME
+           , EMAIL
+           , BIRTHDAY
+           , GENDER
+           , PHONE
+           , ADDRESS
+           )
+           VALUES
+           (
+             SEQ_UNO.NEXTVAL
+           , #{userId}
+           , #{userPwd}
+           , #{userName}
+           , #{email}
+           , #{birthday}
+           , #{gender}
+           , #{phone}
+           , #{address}
+           )
+   </insert>
+   
+	<select id="loginMember"
+			parameterType="com.kh.mybatis.member.model.vo.Member"
+			resultMap="">
+   		SELECT 
+   		       USER_NO
+   		     , USER_ID
+   		     , USER_PWD
+   		     , USER_NAME
+   		     , EMAIL
+   		     , BIRTHDAY
+   		     , GENDER
+   		     , PHONE
+   		     , ADDRESS
+   		     , ENROLL_DATE
+   		     , MODIFY_DATE
+   		     , STATUS
+   		  FROM MEMBER
+   		 WHERE STATUS = 'Y'
+   		   AND USER_ID = #{userId}
+   		   AND USER_PWD = #{userPwd}
+	</select>
+
+</mapper>
