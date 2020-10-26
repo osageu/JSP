@@ -6,7 +6,18 @@
 <mapper namespace="memberMapper">
 	
 	<resultMap id="memberResultSet" type="Member">
-		
+		<id column="USER_NO" property="userNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="USER_PWD" property="userPwd"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="email" property="email"/>
+		<result column="birthday" property="birthday"/>
+		<result column="gender" property="gender"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="modify_date" property="modifyDate"/>
+		<result column="status" property="status"/>
 	</resultMap>
 	
    <!-- 
@@ -50,8 +61,8 @@
    </insert>
    
 	<select id="loginMember"
-			parameterType="com.kh.mybatis.member.model.vo.Member"
-			resultMap="">
+			parameterType="Member"
+			resultMap="memberResultSet">
    		SELECT 
    		       USER_NO
    		     , USER_ID

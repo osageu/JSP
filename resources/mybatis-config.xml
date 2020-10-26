@@ -16,6 +16,8 @@
    <!-- typeAliases 어떤 타입에 별칭 부여 -->
    <typeAliases>
       <typeAlias type="com.kh.mybatis.member.model.vo.Member" alias="Member"/>
+      <typeAlias type="com.kh.mybatis.board.model.vo.Board" alias="Board"/>
+      <typeAlias type="com.kh.mybatis.board.model.vo.Reply" alias="Reply"/>
    </typeAliases>
    
    <!-- DB 연결할 설정에 대한 정보를 선언하는 영역 -->
@@ -54,5 +56,6 @@
    <!-- 사용자의 요청에 따라 실행할 SQL문들을 담고있는 mapper 파일들을 등록하는 영역 -->
    <mappers>
       <mapper resource="/mappers/member-mapper.xml" />
+      <mapper resource="/mappers/board-mapper.xml" />
    </mappers>
 </configuration>

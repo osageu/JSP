@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+	
+	<resultMap id="boardResultSet" type="Board">
+		<id column="board_no" property="boardNo"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="user_id" property="boardWriter"/>
+		<result column="count" property="count"/>
+		<result column="create_date" property="createDate"/>
+		<result column="board_content" property="boardContent"/>
+	</resultMap>
+	
+	<resultMap id="replyResultSet" type="Reply">
+		<id column="reply_no" property="replyNo"/>
+		<result column="reply_no" property="replyNo"/>
+		<result column="reply_no" property="replyNo"/>
+		<result column="reply_no" property="replyNo"/>
+	</resultMap>
+	
+	<select id="selectListCount"
+			resultType="_int">
+		SELECT COUNT(*)
+		  FROM BOARD
+		 WHERE STATUS='Y'
+	</select>
+	
+	<select id="selectList"
+			resultMap="boardResultSet">
+		SELECT 
+		       BOARD_NO
+		     , BOARD_TITLE
+		     , USER_ID
+		     , COUNT
+		     , CREATE_DATE
+		  FROM BOARD B
+		  JOIN MEMBER M ON (B.BOARD_WRITER=M.USER_NO)
+		 WHERE B.STATUS='Y'
+		 ORDER 
+		    BY BOARD_NO DESC
+	</select>
+	<select id="selectSearchListCount"
+			parameterType="com.kh.mybatis.board.model.vo.SearchCondition"
+			resultType="_int">
+		SELECT 
+			   COUNT(*)
+		  FROM BOARD B
+		  JOIN MEMBER M ON(BOARD_WRITER=USER_NO)
+		 WHERE B.STATUS='Y'
+		   <if test="title != null">
+		   	AND BOARD_TITLE LIKE '%' || #{title} || '%'
+		   </if>
+		   <if test="content != null">
+		   	AND BOARD_CONTENT LIKE '%' || #{content} || '%'
+		   </if>
+		   <if test="writer != null">
+		   	AND USER_ID LIKE '%' || #{writer} || '%'
+		   </if>
+	</select>
+	<select id="selectSearchList"
+			parameterType="com.kh.mybatis.board.model.vo.SearchCondition"
+			resultMap="boardResultSet">
+		SELECT 
+		       BOARD_NO
+		     , BOARD_TITLE
+		     , USER_ID
+		     , COUNT
+		     , CREATE_DATE
+		  FROM BOARD B
+		  JOIN MEMBER M ON (BOARD_WRITER=USER_NO)
+		 WHERE B.STATUS='Y'
+		 	<choose>
+		 		<when test="title != null">
+		   			AND BOARD_TITLE LIKE '%' || #{title} || '%'
+		   		</when>
+		   		<when test="content != null">
+		   			AND BOARD_CONTENT LIKE '%' || #{content} || '%'
+			   	</when>
+			   	<otherwise>
+		   			AND USER_ID LIKE '%' || #{writer} || '%'
+			   	</otherwise>
+		   	</choose>
+		 ORDER 
+		    BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectBoard"
+			resultMap="boardResultSet">
+		SELECT 
+		       B.BOARD_NO
+		     , B.BOARD_TITLE
+		     , M.USER_ID
+		     , B.COUNT
+		     , B.CREATE_DATE
+		     , B.BOARD_CONTENT
+		  FORM BOARD B
+		  JOIN MEMBER M ON(B.BOARD_WRITER=M.USER_NO)
+		 WHERE B.BOARD_NO=#{bno}
+		   AND B.STATUS='Y'
+	</select>
+	<select id="selectReplyList"
+			resultMap="replyResultSet">
+		SELECT
+		       REPLY_NO
+		     , REPLY_CONTENT
+		     , USER_ID
+		     , CREATE_DATE
+		  FROM REPLY
+		  JOIN MEMBER ON(REPLY_WRITER=USER_NO)
+		 WHERE REF_BNO = #{bno}
+		   AND R.STATUS = 'Y'
+		 ORDER
+		    BY REPLY_NO
+	</select>
+	
+	
+	<update id="updateCount">
+		UPDATE
+		       BOARD
+		   SET COUNT=COUNT+1
+		 WHERE BOARD_NO = #{bno}
+		   AND STATUS='Y'
+	</update>
+	
+</mapper>
