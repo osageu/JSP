@@ -15,9 +15,9 @@
 	
 	<resultMap id="replyResultSet" type="Reply">
 		<id column="reply_no" property="replyNo"/>
-		<result column="reply_no" property="replyNo"/>
-		<result column="reply_no" property="replyNo"/>
-		<result column="reply_no" property="replyNo"/>
+		<result column="reply_content" property="replyContent"/>
+		<result column="user_id" property="replyWriter"/>
+		<result column="create_date" property="createDate"/>
 	</resultMap>
 	
 	<select id="selectListCount"
@@ -87,6 +87,7 @@
 	</select>
 	
 	<select id="selectBoard"
+			parameterType="_int"
 			resultMap="boardResultSet">
 		SELECT 
 		       B.BOARD_NO
@@ -95,20 +96,21 @@
 		     , B.COUNT
 		     , B.CREATE_DATE
 		     , B.BOARD_CONTENT
-		  FORM BOARD B
+		  FROM BOARD B
 		  JOIN MEMBER M ON(B.BOARD_WRITER=M.USER_NO)
 		 WHERE B.BOARD_NO=#{bno}
 		   AND B.STATUS='Y'
 	</select>
 	<select id="selectReplyList"
+			parameterType="_int"
 			resultMap="replyResultSet">
 		SELECT
 		       REPLY_NO
 		     , REPLY_CONTENT
 		     , USER_ID
 		     , CREATE_DATE
-		  FROM REPLY
-		  JOIN MEMBER ON(REPLY_WRITER=USER_NO)
+		  FROM REPLY R
+		  JOIN MEMBER M ON(REPLY_WRITER=USER_NO)
 		 WHERE REF_BNO = #{bno}
 		   AND R.STATUS = 'Y'
 		 ORDER
@@ -116,7 +118,8 @@
 	</select>
 	
 	
-	<update id="updateCount">
+	<update id="updateCount"
+			parameterType="_int">
 		UPDATE
 		       BOARD
 		   SET COUNT=COUNT+1

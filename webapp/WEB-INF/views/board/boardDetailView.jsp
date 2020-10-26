@@ -64,13 +64,16 @@
             <td colspan="3"><b>댓글(${ list.size() })</b></td>
         </tr>
 		
-        <tr>
-            <td>admin</td>
-            <td>ㅋㅋㅋ 유잼</td>
-            <td>2020-02-02</td>
-        </tr>
-        <br><br>
+		<c:forEach var="r" items="${ list }">
+	        <tr>
+	            <td>${ r.replyWriter }</td>
+	            <td>${ r.replyContent }</td>
+	            <td>${ r.createDate }</td>
+	        </tr>
+		</c:forEach>
+		
     </table>
+        <br><br>
     </div>
 </body>
 </html>
