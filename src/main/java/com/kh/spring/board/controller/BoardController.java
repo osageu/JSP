@@ -17,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.board.model.service.BoardService;
-import com.kh.spring.board.model.service.Service;
-import com.kh.spring.board.model.service.ServiceImpl;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.common.model.vo.PageInfo;
 import com.kh.spring.common.template.Pagination;
@@ -153,12 +151,5 @@ public class BoardController {
 			return "common/errorPage";
 		}
 	}
-	
-	public void fileUpMethod(MultipartFile photo) {
-		if(!photo.getOriginalFilename().equals("")) {
-			int result = Service.writeFileName(photo.getOriginalFilename());
-		}
-	}
-	
 	
 }
